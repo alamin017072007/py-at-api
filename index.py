@@ -36,7 +36,7 @@ app = Flask(__name__)
 @app.route('/get_streaming_url', methods=['GET'])
 def get_streaming_url():
     video_url = request.args.get('url')
-    cookie_file = request.args.get('cookies.json', default=None)  # Allow cookie file to be passed
+    cookie_file = request.args.get('cookies.txt', default=None)  # Allow cookie file to be passed
 
     if not video_url:
         return jsonify({'error': 'Missing url parameter'}), 400
@@ -49,14 +49,15 @@ def get_streaming_url():
             'noplaylist': True,               # Don't process playlists
             'extractaudio': True,             # Extract audio
             'audioquality': 1,                # Highest quality audio
-            'forceurl': True,                 # Force use of URLs instead of m3u8
+            'forceurl': True,  
+            'cookiefile': "cookies.txt"           # Force use of URLs instead of m3u8
         }
 
         # If a cookie file is provided, load the cookies
-        if cookie_file:
-            cookie_jar = http.cookiejar.MozillaCookieJar(cookie_file)
-            cookie_jar.load(cookie_file, ignore_discard=True, ignore_expires=True)
-            ydl_opts['cookiefile'] = cookie_file  # Use the cookie file with yt-dlp
+        # if cookie_file:
+        #     cookie_jar = http.cookiejar.MozillaCookieJar(cookie_file)
+        #     cookie_jar.load(cookie_file, ignore_discard=True, ignore_expires=True)
+        #     ydl_opts['cookiefile'] = cookie_file  # Use the cookie file with yt-dlp
         
         # Fetch the video information using yt-dlp
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
