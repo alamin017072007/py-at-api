@@ -53,10 +53,10 @@ def get_streaming_url():
         }
 
         # If a cookie file is provided, load the cookies
-        # if cookie_file:
-        #     cookie_jar = http.cookiejar.MozillaCookieJar(cookie_file)
-        #     cookie_jar.load(cookie_file, ignore_discard=True, ignore_expires=True)
-        #     ydl_opts['cookiefile'] = cookie_file  # Use the cookie file with yt-dlp
+        if cookie_file:
+            cookie_jar = http.cookiejar.MozillaCookieJar(cookie_file)
+            cookie_jar.load(cookie_file, ignore_discard=True, ignore_expires=True)
+            ydl_opts['cookiefile'] = cookie_file  # Use the cookie file with yt-dlp
         
         # Fetch the video information using yt-dlp
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -70,7 +70,7 @@ def get_streaming_url():
             for items in info_dict['formats']:
                  if items['format_id'] in audio_format_ids:
             #    if audio_format_ids.index(newList['format_id']) > -1:
-                  newList.append(items)
+                  newList.append({"url":items['url']})
              
            
             return newList
