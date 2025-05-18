@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import yt_dlp
 import http.cookiejar
 from waitress import serve
+import time
 
 progressive_format_ids = [
     "18",  # 360p
@@ -70,9 +71,8 @@ def init_ytdlp(video_url):
         ydl_opts = {
             'format': 'bestvideo+bestaudio',  # Try to get the best video and audio combination
             'quiet': True,                    # Suppress output
-            'noplaylist': True,               # Don't process playlists
-            'extractaudio': True,             # Extract audio
-            'audioquality': 1,                # Highest quality audio
+            'noplaylist': True,  
+            'skip_download': True,
             'forceurl': True, 
             'cookiefile': 'cookies.txt'
            # Force use of URLs instead of m3u8
@@ -106,6 +106,9 @@ def to_netscape(cookie_list):
 
 @app.route('/streaming_url/audio', methods=['POST'])
 def get_audio_streaming_url():
+
+    starting= time.time()
+
     video_url = request.args.get('url')
     cookies = request.get_json().get('cookies')
     netscape= to_netscape(cookies)
@@ -144,6 +147,7 @@ def get_audio_streaming_url():
             
             
             return jsonify({
+                 "resonse_took":time.time() - starting, 
                  "format_type":"bestaudio", 
                  "format_note":resolution, 
                  "format_id":pre_format_code, 
@@ -157,6 +161,8 @@ def get_audio_streaming_url():
 
 @app.route('/streaming_url/video', methods=['POST'])
 def get_video_streaming_url():
+    starting= time.time()
+
     video_url = request.args.get('url')
     # cookie_file = request.args.get('cookies.txt', default=None)  # Allow cookie file to be passed
 
@@ -206,6 +212,7 @@ def get_video_streaming_url():
     
           
             return jsonify({
+                 "resonse_took":time.time() - starting, 
                  "format_type":"bestvideo", 
                  "format_note":resolution, 
                  "format_id":pre_format_code, 
