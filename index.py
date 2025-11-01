@@ -127,7 +127,8 @@ def get_audio_streaming_url():
             res = init_ytdlp(video_url)
             pre_format_code=0
             streaming_url=''
-            resolution=''
+             resolution=''
+          return jesonify(res)
             for items in res['formats']:
                  format_id= items['format_id']
                  if format_id in audio_format_ids:
