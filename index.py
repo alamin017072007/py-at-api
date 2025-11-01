@@ -69,7 +69,6 @@ def getVideo_authorInfo(yt_dlp_res):
 
 def init_ytdlp(video_url):
         ydl_opts = {
-            'format': 'bestvideo+bestaudio',  # Try to get the best video and audio combination
             'quiet': True,                    # Suppress output
             'noplaylist': True,  
             'skip_download': True,
