@@ -128,31 +128,31 @@ def get_audio_streaming_url():
             pre_format_code=0
             streaming_url=''
              resolution=''
-          return jesonify(res)
-            for items in res['formats']:
-                 format_id= items['format_id']
-                 if format_id in audio_format_ids:
-                      int_format_id= int(format_id)
+          return jsonify(res)
+         #   for items in res['formats']:
+          #       format_id= items['format_id']
+           #      if format_id in audio_format_ids:
+            #          int_format_id= int(format_id)
                     #   if int_format_id==234:
                     #        pre_format_code=int_format_id
                     #        streaming_url=items['url']
                     #        resolution= items['format_note']
                     #        break
-                      if pre_format_code < int_format_id:
-                           pre_format_code=int_format_id
-                           streaming_url=items['url']
-                           resolution= items['format_note']
+                    #  if pre_format_code < int_format_id:
+                     #      pre_format_code=int_format_id
+                    #       streaming_url=items['url']
+                      #     resolution= items['format_note']
                   #if audio_format_ids.index(newList['format_id']) > -1:
                 #   newList.append({"url":items['url']})
              
             
             
-            return jsonify({
-                 "resonse_took":time.time() - starting, 
-                 "format_type":"bestaudio", 
-                 "format_note":resolution, 
-                 "format_id":pre_format_code, 
-                 "streaming_url":streaming_url})
+          #  return jsonify({
+             #    "resonse_took":time.time() - starting, 
+             #    "format_type":"bestaudio", 
+            #     "format_note":resolution, 
+             #    "format_id":pre_format_code, 
+             #    "streaming_url":streaming_url})
             
 
     except Exception as e:
