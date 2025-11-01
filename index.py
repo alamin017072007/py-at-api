@@ -175,6 +175,7 @@ def get_video_streaming_url():
             pre_format_code=0
             resolution=''
             streaming_url=''
+            return jesonify(res)
             for items in res['formats']:
                  format_id= items['format_id']
                  if format_id in progressive_format_ids:
